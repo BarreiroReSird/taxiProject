@@ -1,2 +1,2 @@
-# vendingMachine
-Project about a vending machine, done for Algorithms and Data Structure
+# taxiProject
+Project about taxi rides, done for Algorithms and Data Structure
