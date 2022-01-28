@@ -103,7 +103,7 @@ void TotalAmountOfEarnings(sTaxi *sTaxis, int ridesNumber) {
     printf("%.2f", totalEarnings);
 }
 
-// Calcular a média de preço das viagens
+// (06) Calcular a média de preço das viagens
 void averageOfEarnings(sTaxi *sTaxis, int ridesNumber) {
     float averageEarnings = 0, total = 0;
     
@@ -115,19 +115,62 @@ void averageOfEarnings(sTaxi *sTaxis, int ridesNumber) {
     printf("%.2f", averageEarnings);
 }
 
-// Listar informação sobre a(s) viagens(s) mais baratas
+// (07) Listar informação sobre a(s) viagens(s) mais baratas
 void cheapestRides(sTaxi *sTaxis, int ridesNumber) {
     float cheapestRide = 999;
-    int x = 0;
-    
-    printf("\n Viagem(ns) mais barata(s): \t");
-    for (int i = 0; i < ridesNumber; i++) {
-        if(cheapestRide < sTaxis[i].rPrice) {
-            cheapestRide = sTaxis[i].rPrice;
+    int z = 0, y = 0;
+
+    while (z < ridesNumber) {
+        if(cheapestRide > sTaxis[z].rPrice) {
+            cheapestRide = sTaxis[z].rPrice;
         }
-        printf("%.2f", cheapestRide);
-        x = sTaxis[i].rId;
-        printf("\n Viagem: \t", x);
+        z++;
+    }
+    while (y < ridesNumber) {
+        if(cheapestRide == sTaxis[y].rPrice) {
+            printf("\n Valor da viagem mais barata: %0.2f\t", cheapestRide);
+            printf("\n Id da viagem: mais barata: %d\t", sTaxis[y].rId);
+            printf("\n Id do taxi que realizou a viagem: %d\t", sTaxis[y].tId);
+            printf("\n Tipo de viagem realizada: %s\t", sTaxis[y].rType);
+        }
+        y++;
+    }
+
+}
+
+// (08) Listar a informação sobres as viagens de um determinado tipo.
+void ridesByType(sTaxi *sTaxis, int ridesNumber) {
+    char requestedType[MAXSTR];
+
+    printf(" Insira o tipo de viagem: (L|N|I|O) ");
+    scanf("%s", requestedType);
+    for (int i = 0; i < ridesNumber; i++) {
+        if (strcmp(sTaxis[i].rType, requestedType) == 0) {
+            printf("\n Id da viagem: %d", sTaxis[i].rId);
+            printf(" | Id do taxi: %d", sTaxis[i].tId);
+            printf(" | Preco: %.2f", sTaxis[i].rPrice);
+            printf(" | Tipo: %s", sTaxis[i].rType);
+        }
+    }
+}
+
+// (09) Mostrar bebidas com o preco acima da media
+void overpricedRides(sTaxi *sTaxis, int ridesNumber) {
+    float averagePrice = 0, sumPrice = 0;
+
+    for (int i = 0; i < ridesNumber; i++) {
+        sumPrice = sumPrice + sTaxis[i].rPrice;
+    }
+    averagePrice = sumPrice / ridesNumber;  //  Media de preco das viagens;
+    printf("\n Media de precos: %.2f", averagePrice);
+    printf("\n Viagens acima da media:");
+    for (int i = 0; i < ridesNumber; i++) {
+        if (sTaxis[i].rPrice > averagePrice) {
+            printf("\n Id da viagem: %d", sTaxis[i].rId);
+            printf(" | Id do taxi: %d", sTaxis[i].tId);
+            printf(" | Preco: %.2f", sTaxis[i].rPrice);
+            printf(" | Tipo: %s", sTaxis[i].rType);
+        }
     }
 }
 
@@ -172,7 +215,19 @@ int main() {
             case 7: // Listar informação sobre a(s) viagens(s) mais baratas
                 cheapestRides(tRides, ridesNumber);
                 break;
-                
+
+            case 8: // Listar a informação sobres as viagens de um determinado tipo
+                ridesByType(tRides, ridesNumber);
+                break;
+
+            case 9: // Listar informação sobre as viagens cujo preço acima da média.
+                overpricedRides(tRides, ridesNumber);
+                break;
+
+            case 10: // Saber quantas viagens foram feitas por cada tipo de viagem.
+                (tRides, ridesNumber);
+                break;
+
             case 0:
                 menu = 0;
                 break;
@@ -189,6 +244,10 @@ int main() {
         puts("\n 04|Listar a informação sobre uma determinada viagem.");
         puts("\n 05|Calcular a totalidade do valor (em €) feito na soma de todas as viagens efetuadas.");
         puts("\n 06|Calcular a média de preço das viagens.");
+        puts("\n 07|Listar informação sobre a(s) viagens(s) mais baratas.");
+        puts("\n 08|Listar a informação sobres as viagens de um determinado tipo.");
+        puts("\n 09|Listar informação sobre as viagens cujo preço acima da média.");
+        puts("\n 10|Saber quantas viagens foram feitas por cada tipo de viagem.");
         puts("\n 00|Sair\t");
     
         printf("\n Escolha a opcao que deseja: \t");
