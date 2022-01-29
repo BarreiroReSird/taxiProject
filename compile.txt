@@ -1,0 +1,3 @@
+Compile:
+
+gcc -Wall main.c -o test.exe; .\test.exe

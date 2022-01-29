@@ -273,35 +273,35 @@ void typeValueCounter(sTaxi *sTaxis, int ridesNumber) {
 
 // (12) Para um determinado táxi, listar a informação sobre a viagem com valor recebido mais alto.
 void bestPaidRideFromSpecificTaxi(sTaxi *sTaxis, int ridesNumber) {
-    int requestedTaxi = 0,
-        bestPaidRideTaxi = -1;
-    float bestPaidRide = 0;
+    int requestedTaxi = 0;
+
+    float bestPaidRidePrice = -1;
 
     printf("\n Insira o taxi que deseja receber informacao: ");
-    scanf("%d", requestedTaxi);
+    scanf("%d", &requestedTaxi);
+    fflush(stdin);
     if (requestedTaxi > 0 && requestedTaxi < 21) {
         for (int i = 0; i < ridesNumber; i++) {
-            if (bestPaidRide > sTaxis[i].rPrice) {
-                bestPaidRide = sTaxis[i].rPrice;
-                bestPaidRideTaxi = i;
+            if (sTaxis[i].tId == requestedTaxi && sTaxis[i].rPrice > bestPaidRidePrice) {
+                bestPaidRidePrice = sTaxis[i].rPrice;
             }
         }
-        if (bestPaidRideTaxi == -1) {
+        if (bestPaidRidePrice == -1) {
             printf("\n Viagens não encontradas. ");
-        } else {
-            for (int i = 0; i < ridesNumber; i++) {
-                printf("\n Viagem mais bem paga deste taxi: %.2f", sTaxis[bestPaidRideTaxi].rPrice);
-                printf("\n Taxi pedido: %d", sTaxis[bestPaidRideTaxi].tId);
-                printf("\n Taxi pedido: %d", requestedTaxi);
-                printf("\n Id da viagem: %d", sTaxis[bestPaidRideTaxi].rId);
-                printf("\n Tipo de viagem realizada: %s \n", sTaxis[bestPaidRideTaxi].rType);
-                break;
+            return;
+        }
+
+        for (int i = 0; i < ridesNumber; i++) {
+            if (sTaxis[i].rPrice == bestPaidRidePrice) {
+                printf("\n Viagem mais bem paga deste taxi: %.2f", sTaxis[i].rPrice);
+                printf("\n Taxi pedido: %d", sTaxis[i].tId);
+                printf("\n Id da viagem: %d", sTaxis[i].rId);
+                printf("\n Tipo de viagem realizada: %s \n", sTaxis[i].rType);
             }
         }
     }else{
         printf("\n O taxi nao existe!");
     }
-    //Nao esta a funcionar
 }
 
 // (13) Supondo que a empresa paga um IVA de 23%, calcular o valor que a empresa deve pagar ao estado em IVA, na totalidade de viagem efetuadas.
