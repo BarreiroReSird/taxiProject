@@ -44,7 +44,6 @@ int AddInfoAboutRide(sTaxi *ridesList, int *ridesNumber, int *lastRideId) {
         scanf("%s", tripType);
         strToUpper(tripType);
         strcpy(taxi.rType, tripType);
-
         fflush(stdin);
         
         (*lastRideId)++;
@@ -188,6 +187,43 @@ void overpricedRides(sTaxi *sTaxis, int ridesNumber) {
     }
 }
 
+// (10) Saber quantas viagens foram feitas por cada tipo de viagem.  
+void typeCounter(sTaxi *sTaxis, int ridesNumber) {
+    char local[MAXSTR] = "L",
+        nacional[MAXSTR] = "N",
+        internacional[MAXSTR] = "I";
+    int typeL = 0,
+        typeN = 0,
+        typeI = 0,
+        typeO = 0;
+
+    for (int i = 0; i < ridesNumber; i++) {
+        if (strcmp(sTaxis[i].rType, local) == 0) {
+            typeL++;
+        }
+    }
+
+    for (int i = 0; i < ridesNumber; i++) {
+        if (strcmp(sTaxis[i].rType, nacional) == 0) {
+            typeN++;
+        }
+    }
+
+    for (int i = 0; i < ridesNumber; i++) {
+        if (strcmp(sTaxis[i].rType, internacional) == 0) {
+            typeI++;
+        }
+    }
+
+    typeO = ridesNumber - (typeL + typeN + typeI);
+
+    printf("\n Quantidade total de viagens: %d", ridesNumber);
+    printf("\n Viagens realizadas localmente: %d", typeL);
+    printf("\n Viagens realizadas nacionalmente: %d", typeN);
+    printf("\n Viagens realizadas internacionalmente: %d", typeI);
+    printf("\n Outras viagens realizadas: %d \n", typeO);
+}
+
 int main() {
     int menu = 0,
         ridesAdded = 0,
@@ -242,7 +278,7 @@ int main() {
                 break;
 
             case 10: // Saber quantas viagens foram feitas por cada tipo de viagem.
-                // Coming Soon
+                typeCounter(tRides, ridesNumber);
                 break;
 
             case 11: // Saber quantas viagens foram feitas por cada tipo de viagem.
