@@ -1,21 +1,31 @@
 //Includes:
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
     
 //Defines:
-    #define MAXSTR 128
+#define MAXSTR 128
     
 //Structs:
-    typedef struct sTaxis {
-        int tId, rId; // taxi id | ride id
-        float rPrice; // ride price
-        char rType[MAXSTR]; // ryde type
-    } sTaxi;
+typedef struct sTaxis {
+    int tId, rId; // taxi id | ride id
+    float rPrice; // ride price
+    char rType[2]; // ryde type
+} sTaxi;
+
+void strToUpper(char* src) {
+    int i = 0;
+    while (src[i] != '\0') {
+        src[i] = toupper(src[i]);
+        i++;
+    }
+}
     
 // (01) Introduzir informação sobre viagens
 int AddInfoAboutRide(sTaxi *ridesList, int *ridesNumber, int *lastRideId) {
     sTaxi taxi;
+    char tripType[2];
     int ridesToAdd = 0;
     
     printf("\n Quantas viagens deseja adicionar?: \t");
@@ -30,8 +40,11 @@ int AddInfoAboutRide(sTaxi *ridesList, int *ridesNumber, int *lastRideId) {
         scanf("%f", &taxi.rPrice);
         fflush(stdin);
         
-        printf("\n Tipo de viagem: (L - Local (cidade) | N – Nacional | I – Internacional | O  – Outra\t");
-        scanf("%s", taxi.rType);
+        printf("\n Tipo de viagem: (L (local) | N (nacional) | I (internacional) | O (outra) \t");
+        scanf("%s", tripType);
+        strToUpper(tripType);
+        strcpy(taxi.rType, tripType);
+
         fflush(stdin);
         
         (*lastRideId)++;
@@ -145,6 +158,7 @@ void ridesByType(sTaxi *sTaxis, int ridesNumber) {
     printf(" Insira o tipo de viagem: (L|N|I|O) ");
     scanf("%s", requestedType);
     for (int i = 0; i < ridesNumber; i++) {
+        strToUpper(requestedType);
         if (strcmp(sTaxis[i].rType, requestedType) == 0) {
             printf("\n Id da viagem: %d", sTaxis[i].rId);
             printf(" | Id do taxi: %d", sTaxis[i].tId);
@@ -154,7 +168,7 @@ void ridesByType(sTaxi *sTaxis, int ridesNumber) {
     }
 }
 
-// (09) Mostrar bebidas com o preco acima da media
+// (09) Mostrar viagens com o preco acima da media
 void overpricedRides(sTaxi *sTaxis, int ridesNumber) {
     float averagePrice = 0, sumPrice = 0;
 
@@ -175,7 +189,10 @@ void overpricedRides(sTaxi *sTaxis, int ridesNumber) {
 }
 
 int main() {
-    int menu = 0, ridesAdded = 0, ridesNumber = 0, lastRideAddedId = 0;
+    int menu = 0,
+        ridesAdded = 0,
+        ridesNumber = 0,
+        lastRideAddedId = 0;
     sTaxi tRides[MAXSTR];
     
     puts("\n ] Taxi Program [ ");
@@ -225,7 +242,19 @@ int main() {
                 break;
 
             case 10: // Saber quantas viagens foram feitas por cada tipo de viagem.
-                (tRides, ridesNumber);
+                // Coming Soon
+                break;
+
+            case 11: // Saber quantas viagens foram feitas por cada tipo de viagem.
+                // Coming Soon
+                break;
+
+            case 12: // Para um determinado táxi (introduzido pelo utilizador), listar a informação sobre a viagem com valor recebido mais alto.
+                // Coming Soon
+                break;
+
+            case 13: // Supondo que a empresa paga um IVA de 23%, calcular o valor que a empresa deve pagar ao estado em IVA, na totalidade de viagem efetuadas.
+                // Coming Soon
                 break;
 
             case 0:
@@ -248,6 +277,9 @@ int main() {
         puts("\n 08|Listar a informação sobres as viagens de um determinado tipo.");
         puts("\n 09|Listar informação sobre as viagens cujo preço acima da média.");
         puts("\n 10|Saber quantas viagens foram feitas por cada tipo de viagem.");
+        puts("\n 11|Contabilizar, para cada tipo de viagem, o valor (em €) efetuado em viagens.");
+        puts("\n 12|Para um determinado táxi (introduzido pelo utilizador), listar a informação sobre a viagem com valor recebido mais alto.");
+        puts("\n 13|Supondo que a empresa paga um IVA de 23%, calcular o valor que a empresa deve pagar ao estado em IVA, na totalidade de viagem efetuadas.");
         puts("\n 00|Sair\t");
     
         printf("\n Escolha a opcao que deseja: \t");
