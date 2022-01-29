@@ -224,6 +224,53 @@ void typeCounter(sTaxi *sTaxis, int ridesNumber) {
     printf("\n Outras viagens realizadas: %d \n", typeO);
 }
 
+// (11) Contabilizar, para cada tipo de viagem, o valor (em €) efetuado em viagens.  
+void typeValueCounter(sTaxi *sTaxis, int ridesNumber) {
+    char local[MAXSTR] = "L",
+        nacional[MAXSTR] = "N",
+        internacional[MAXSTR] = "I";
+    int typeL = 0,
+        typeN = 0,
+        typeI = 0,
+        typeO = 0,
+        all3Types = 0,
+        allTypesValue = 0;
+
+    for (int i = 0; i < ridesNumber; i++) {
+        allTypesValue = allTypesValue + sTaxis[i].rPrice;
+    }
+
+
+    for (int i = 0; i < ridesNumber; i++) {
+        if (strcmp(sTaxis[i].rType, local) == 0) {
+            typeL = typeL + sTaxis[i].rPrice;
+            all3Types = all3Types + typeL;
+        }
+    }
+
+    for (int i = 0; i < ridesNumber; i++) {
+        if (strcmp(sTaxis[i].rType, nacional) == 0) {
+            typeN = typeN + sTaxis[i].rPrice;
+            all3Types = all3Types + typeN;
+        }
+    }
+
+    for (int i = 0; i < ridesNumber; i++) {
+        if (strcmp(sTaxis[i].rType, internacional) == 0) {
+            typeI = typeI + sTaxis[i].rPrice;
+            all3Types = all3Types + typeI;
+        }
+    }
+
+    typeO = allTypesValue - all3Types;
+
+    printf("\n Valor total das viagens: %d", allTypesValue);
+    printf("\n Valor das viagens realizadas localmente: %d", typeL);
+    printf("\n Valor das viagens realizadas nacionalmente: %d", typeN);
+    printf("\n Valor das viagens realizadas internacionalmente: %d", typeI);
+    printf("\n Valor das outras viagens realizadas: %d \n", typeO);
+}
+
 int main() {
     int menu = 0,
         ridesAdded = 0,
@@ -281,8 +328,8 @@ int main() {
                 typeCounter(tRides, ridesNumber);
                 break;
 
-            case 11: // Saber quantas viagens foram feitas por cada tipo de viagem.
-                // Coming Soon
+            case 11: // Contabilizar, para cada tipo de viagem, o valor (em €) efetuado em viagens
+                typeValueCounter(tRides, ridesNumber);
                 break;
 
             case 12: // Para um determinado táxi (introduzido pelo utilizador), listar a informação sobre a viagem com valor recebido mais alto.
