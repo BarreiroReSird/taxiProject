@@ -271,6 +271,53 @@ void typeValueCounter(sTaxi *sTaxis, int ridesNumber) {
     printf("\n Valor das outras viagens realizadas: %d \n", typeO);
 }
 
+// (12) Para um determinado táxi, listar a informação sobre a viagem com valor recebido mais alto.
+void bestPaidRideFromSpecificTaxi(sTaxi *sTaxis, int ridesNumber) {
+    int requestedTaxi = 0,
+        bestPaidRideTaxi = -1;
+    float bestPaidRide = 0;
+
+    printf("\n Insira o taxi que deseja receber informacao: ");
+    scanf("%d", requestedTaxi);
+    if (requestedTaxi > 0 && requestedTaxi < 21) {
+        for (int i = 0; i < ridesNumber; i++) {
+            if (bestPaidRide > sTaxis[i].rPrice) {
+                bestPaidRide = sTaxis[i].rPrice;
+                bestPaidRideTaxi = i;
+            }
+        }
+        if (bestPaidRideTaxi == -1) {
+            printf("\n Viagens não encontradas. ");
+        } else {
+            for (int i = 0; i < ridesNumber; i++) {
+                printf("\n Viagem mais bem paga deste taxi: %.2f", sTaxis[bestPaidRideTaxi].rPrice);
+                printf("\n Taxi pedido: %d", sTaxis[bestPaidRideTaxi].tId);
+                printf("\n Taxi pedido: %d", requestedTaxi);
+                printf("\n Id da viagem: %d", sTaxis[bestPaidRideTaxi].rId);
+                printf("\n Tipo de viagem realizada: %s \n", sTaxis[bestPaidRideTaxi].rType);
+                break;
+            }
+        }
+    }else{
+        printf("\n O taxi nao existe!");
+    }
+    //Nao esta a funcionar
+}
+
+// (13) Supondo que a empresa paga um IVA de 23%, calcular o valor que a empresa deve pagar ao estado em IVA, na totalidade de viagem efetuadas.
+void totalIVAPaid(sTaxi *sTaxis, int ridesNumber) {
+    int allTypesValue = 0;
+    float calcIVA = 0;
+
+    for (int i = 0; i < ridesNumber; i++) {
+        allTypesValue = allTypesValue + sTaxis[i].rPrice;
+    }
+
+    calcIVA = allTypesValue * 0.23;
+    printf("\n Valor total das viagens (€): %d", allTypesValue);
+    printf("\n Valor total pago em IVA (€): %.2f \n", calcIVA);
+}
+
 int main() {
     int menu = 0,
         ridesAdded = 0,
@@ -332,12 +379,13 @@ int main() {
                 typeValueCounter(tRides, ridesNumber);
                 break;
 
-            case 12: // Para um determinado táxi (introduzido pelo utilizador), listar a informação sobre a viagem com valor recebido mais alto.
-                // Coming Soon
+            case 12: // Para um determinado táxi, listar a informação sobre a viagem com valor recebido mais alto.
+                bestPaidRideFromSpecificTaxi(tRides, ridesNumber);
                 break;
 
-            case 13: // Supondo que a empresa paga um IVA de 23%, calcular o valor que a empresa deve pagar ao estado em IVA, na totalidade de viagem efetuadas.
-                // Coming Soon
+            case 13: // Supondo que a empresa paga um IVA de 23%, calcular o valor que a empresa deve pagar ao estado
+                    // em IVA, na totalidade de viagem efetuadas.
+                totalIVAPaid(tRides, ridesNumber);
                 break;
 
             case 0:
@@ -350,7 +398,7 @@ int main() {
         }
 
         puts("\n ] Taxi Program [ ");
-        puts("\n 01|Introduzir informação sobre uma viagem.");
+        puts("\n 01|Introduzir informaçao sobre uma ou mais viagens.");
         puts("\n 02|Listar informação sobre todas as viagens.");
         puts("\n 03|Listar a informação sobre as viagens efetuadas por um determinado táxi.");
         puts("\n 04|Listar a informação sobre uma determinada viagem.");
